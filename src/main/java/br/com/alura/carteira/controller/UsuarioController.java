@@ -51,7 +51,8 @@ public List<UsuarioDto> listar() {
 @PostMapping
 public void cadastrar(@RequestBody @Valid UsuarioFormDto dto ) {
     service.cadastrar(dto);
-	
+
+// teste da inclusão do gerenciamento de versao em 27/09/2021    
 }	
 	
 	

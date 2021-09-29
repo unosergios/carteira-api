@@ -19,10 +19,11 @@ public class TestaLombok {
 		System.out.println(t);
 		
 // teste do construtor
+
+// foi comentado com a inclusão do JPA		
+	//	Transacao t1 = new Transacao("xpto",new BigDecimal("123.45"),23,LocalDate.now(),TipoTransacao.COMPRA);
 		
-		Transacao t1 = new Transacao("xpto",new BigDecimal("123.45"),23,LocalDate.now(),TipoTransacao.COMPRA);
-		
-		System.out.println(t1);
+	//	System.out.println(t1);
 		
 
 	}

@@ -8,12 +8,14 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.alura.carteira.dto.UsuarioDto;
 import br.com.alura.carteira.dto.UsuarioFormDto;
 import br.com.alura.carteira.modelo.Usuario;
+import br.com.alura.carteira.repository.UsuarioRepository;
 
 // Na classe service é para isolar as regras da aplicação por exemplo gerar
 // a senha
@@ -21,10 +23,13 @@ import br.com.alura.carteira.modelo.Usuario;
 @Service
 public class UsuarioService {
 
-	private List<Usuario> usuarios = new ArrayList<>();
+//	private List<Usuario> usuarios = new ArrayList<>();
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 	private ModelMapper modelMapper = new ModelMapper();	
 	
 	public List<UsuarioDto> listar() {
+		List<Usuario> usuarios = usuarioRepository.findAll();
 		return usuarios.stream()
 				.map(t -> modelMapper.map(t,UsuarioDto.class))
 					.collect(Collectors.toList());
@@ -38,7 +43,10 @@ public class UsuarioService {
 		usuario.setSenha(senha);     		               // coloca uma ramge 999999 para gerar uma
 
         System.out.println(usuario.getSenha());
-		usuarios.add(usuario);                             // senha com 6 numeros
+//		usuarios.add(usuario); 
+		// senha com 6 numeros
+
+        usuarioRepository.save(usuario);
 	}		
 	
 }

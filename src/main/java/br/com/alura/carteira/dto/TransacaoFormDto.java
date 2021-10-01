@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import br.com.alura.carteira.modelo.TipoTransacao;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +39,14 @@ public class TransacaoFormDto {
 	
 	@NotNull
 	private TipoTransacao tipo;	
+	
+// só que o padrao de nomenclatura é o camelCase - como contornar ?
+// vamos utilizar a anotação  JasonAlians	- significa que no jason entra ou sai como usuario_id 
+// e aqui no java utilizamos a boa pratica camelcase	
+	
+	@JsonAlias("usuario_id")
+	private Long UsuarioId ;
+	
 
 //substituido pelo Lombok	
 	

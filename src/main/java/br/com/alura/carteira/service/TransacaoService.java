@@ -1,10 +1,9 @@
 package br.com.alura.carteira.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,16 +20,25 @@ public class TransacaoService {
 	private TransacaoRepository transacaoRepository;
 	private ModelMapper modelMapper = new ModelMapper();	
 	
-	public List<TransacaoDto> listar() {
-		List<Transacao> transacoes = transacaoRepository.findAll();
-		return transacoes.stream()
-				.map(t -> modelMapper.map(t,TransacaoDto.class))
-					.collect(Collectors.toList());
+	// trocar o list para Page
+//	public List<TransacaoDto> listar(Pageable paginacao) {
+		// para limitar a qtde utilizamos- por default é 20 registros
+		// para alterar este limite para o processo de paginação no
+		// front end 
+		// tem dois caminhos. Ler do link o parametro ou
+		// devolve uma pagina via Page
+	
+	public Page<TransacaoDto> listar(Pageable paginacao) {
+		
+	    Page<Transacao> transacoes = transacaoRepository.findAll(paginacao);
+		
+		return transacoes.map(t -> modelMapper.map(t,TransacaoDto.class));
 		}	
 
 	// rodar uma transacao de bco de dados- commit - senao fica sobrepondo
 	// mas o modelmapper acaba confundindo o id do usuario_id e o id da
 	// transacao . 
+	
 	@Transactional
 	public void cadastrar(TransacaoFormDto dto ) {
 		Transacao transacao = modelMapper.map(dto, Transacao.class);

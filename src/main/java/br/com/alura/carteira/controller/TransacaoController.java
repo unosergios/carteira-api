@@ -1,10 +1,11 @@
 package br.com.alura.carteira.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -170,10 +171,16 @@ public class TransacaoController {
 	
 	@Autowired
 	private TransacaoService service;
+
+	
+// para efetuar a paginação usamos o Pageable	
+// trocar o list por Page	
+// para deixar o default de 10 para 2 usar o @pageabledefault	e assim não
+// precisoa utilizar o parametro no link transacoes?size=2
 	
 @GetMapping
-public List<TransacaoDto> listar() {
-	   return service.listar();
+public Page<TransacaoDto> listar(@PageableDefault(size=3) Pageable paginacao) {
+	   return service.listar(paginacao);
 	   
 // pode ir para a classe service	
 //	return usuarios.stream()

@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,8 +40,8 @@ public class UsuarioController {
 	private UsuarioService service;
 	
 @GetMapping
-public List<UsuarioDto> listar() {
-	   return service.listar();
+public Page<UsuarioDto> listar(Pageable paginacao) {
+	   return service.listar(paginacao);
 	   
 // pode ir para a classe service	
 //	return usuarios.stream()

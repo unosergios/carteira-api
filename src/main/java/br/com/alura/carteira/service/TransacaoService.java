@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.alura.carteira.dto.TransacaoDto;
 import br.com.alura.carteira.dto.TransacaoFormDto;
@@ -27,10 +28,16 @@ public class TransacaoService {
 					.collect(Collectors.toList());
 		}	
 
+	// rodar uma transacao de bco de dados- commit - senao fica sobrepondo
+	// mas o modelmapper acaba confundindo o id do usuario_id e o id da
+	// transacao . 
+	@Transactional
 	public void cadastrar(TransacaoFormDto dto ) {
 		Transacao transacao = modelMapper.map(dto, Transacao.class);
-
-		System.out.println("aqui");
+// pode fazer um ajuste no modelmapper
+		// para dizer que na tem id e o bco cria um novo id
+		
+		transacao.setId(null);
         transacaoRepository.save(transacao);
        
 	}		

@@ -45,7 +45,7 @@ public class TransacaoFormDto {
 // e aqui no java utilizamos a boa pratica camelcase	
 	
 	@JsonAlias("usuario_id")
-	private Long UsuarioId ;
+	private Long usuarioId ;
 	
 
 //substituido pelo Lombok	

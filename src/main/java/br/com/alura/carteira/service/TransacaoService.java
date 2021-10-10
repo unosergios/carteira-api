@@ -39,14 +39,16 @@ public class TransacaoService {
 	// mas o modelmapper acaba confundindo o id do usuario_id e o id da
 	// transacao . 
 	
+	// tirar o void e retornar a TransacaoDto - para o retorno do cod 201
 	@Transactional
-	public void cadastrar(TransacaoFormDto dto ) {
+	public TransacaoDto cadastrar(TransacaoFormDto dto ) {
 		Transacao transacao = modelMapper.map(dto, Transacao.class);
 // pode fazer um ajuste no modelmapper
 		// para dizer que na tem id e o bco cria um novo id
 		
 		transacao.setId(null);
         transacaoRepository.save(transacao);
+        return modelMapper.map(transacao,TransacaoDto.class);
        
 	}		
 	

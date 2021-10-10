@@ -12,10 +12,12 @@ import lombok.Setter;
 public class TransacaoDto {
 	
 //	vamos tirar a data pois não vamos querer que transferir para o JSON
+// colocar a Id para ser usado na montagem do URI
 	
+	private Long id;
 	private String ticker;
 	private BigDecimal preco;
-	private int quantidade;
+	private Integer quantidade;
 	private TipoTransacao tipo;
 	
 

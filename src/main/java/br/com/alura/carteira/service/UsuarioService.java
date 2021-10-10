@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.alura.carteira.dto.UsuarioDto;
 import br.com.alura.carteira.dto.UsuarioFormDto;
@@ -33,7 +34,11 @@ public class UsuarioService {
 		
 		}	
 
-	public void cadastrar(UsuarioFormDto dto ) {
+	//public void cadastrar(UsuarioFormDto dto ) {
+	// tirar o voi para retornar o UsuarioDto
+	
+	@Transactional
+	public UsuarioDto cadastrar(UsuarioFormDto dto ) {
 		Usuario usuario = modelMapper.map(dto, Usuario.class);
 	//  a senha poderia ser gerado aqui e não digitado
 		
@@ -45,6 +50,8 @@ public class UsuarioService {
 		// senha com 6 numeros
 
         usuarioRepository.save(usuario);
+        
+        return modelMapper.map(usuario, UsuarioDto.class);
 	}		
 	
 }

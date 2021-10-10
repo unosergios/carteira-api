@@ -1,22 +1,23 @@
 package br.com.alura.carteira.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.net.URI;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.alura.carteira.dto.TransacaoDto;
 import br.com.alura.carteira.dto.UsuarioDto;
 import br.com.alura.carteira.dto.UsuarioFormDto;
-import br.com.alura.carteira.modelo.Usuario;
 import br.com.alura.carteira.service.UsuarioService;
 
 @RestController
@@ -50,10 +51,15 @@ public Page<UsuarioDto> listar(Pageable paginacao) {
 
 }
 
+// para retornar o codigo 201 o metodo de retornar enão vamos
+// tirar a void e retornar um objeto Dto
+//public void cadastrar(@RequestBody @Valid UsuarioFormDto dto )
 @PostMapping
-public void cadastrar(@RequestBody @Valid UsuarioFormDto dto ) {
-    service.cadastrar(dto);
-
+public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid UsuarioFormDto dto,
+		UriComponentsBuilder uriBuilder) {
+	UsuarioDto usuarioDto = service.cadastrar(dto);
+    URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuarioDto.getId()).toUri();
+    return ResponseEntity.created(uri).body(usuarioDto);
 // teste da inclusão do gerenciamento de versao em 27/09/2021    
 }	
 	

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.alura.carteira.dto.TransacaoDto;
 import br.com.alura.carteira.dto.TransacaoFormDto;
 import br.com.alura.carteira.modelo.Transacao;
+import br.com.alura.carteira.modelo.Usuario;
 import br.com.alura.carteira.repository.TransacaoRepository;
 
 
@@ -42,11 +43,17 @@ public class TransacaoService {
 	// tirar o void e retornar a TransacaoDto - para o retorno do cod 201
 	@Transactional
 	public TransacaoDto cadastrar(TransacaoFormDto dto ) {
+		
+	//*	Long idUsuario = dto.getUsuarioId();
+	//*	Usuario usuario = usuarioRepository.getById(idUsuario);
+		
+		
 		Transacao transacao = modelMapper.map(dto, Transacao.class);
 // pode fazer um ajuste no modelmapper
 		// para dizer que na tem id e o bco cria um novo id
 		
 		transacao.setId(null);
+//*		transacao.setUsuario(usuario);
         transacaoRepository.save(transacao);
         return modelMapper.map(transacao,TransacaoDto.class);
        

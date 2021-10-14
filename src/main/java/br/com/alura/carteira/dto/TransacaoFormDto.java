@@ -23,10 +23,25 @@ public class TransacaoFormDto {
 // para rodar a validação temos que invocar a validacao	
 	
 
+// para personalizar diretamente  nas anotações em portugues ou outra lingua
+//    @NotEmpty(message = "campo obrigatorio xxx")
 
-    @NotEmpty
+// mas para todos os NotEmpty - poderia deixar em um so lugar	
+// o beam validation consegue ler um arquivo com todas as mensagens
+// arquivo para personalizar as mensagens do bean validation
+// pode colocar uma key para buscar do arquivo de mensagem 
+	
+//	para utilizar as msg em varios idiomas - criar orquivo ValidationMessage_PTBR.properties
+//  ValidationMessage_ENUS.properties - ingles americano	um arquivo para cada idioma
+// O Spring consegue ler o idioma que o usuario está usando	
+// processo conhecido como internacioanalizacao	
+
+	
+	
+	@NotEmpty
     @Size(min=5 , max=6)
-    @Pattern(regexp="[a-zA-Z]{4}[0-9][0-9]?")	
+  //  @Pattern(regexp="[a-zA-Z]{4}[0-9][0-9]?",message = "Ticker no formato incalido")	
+	@Pattern(regexp="[a-zA-Z]{4}[0-9][0-9]?",message="{transacao.ticker.ivalido}")
 	private String ticker;
     
 
@@ -38,7 +53,7 @@ public class TransacaoFormDto {
 	@PastOrPresent
 	private LocalDate data;
 	
-	@NotNull
+	@NotNull(message ="usar esta mensagem que sobrepoe do arquivo de msg")
 	private TipoTransacao tipo;	
 	
 // só que o padrao de nomenclatura é o camelCase - como contornar ?

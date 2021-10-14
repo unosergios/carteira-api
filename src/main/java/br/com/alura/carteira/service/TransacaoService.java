@@ -12,6 +12,7 @@ import br.com.alura.carteira.dto.TransacaoFormDto;
 import br.com.alura.carteira.modelo.Transacao;
 import br.com.alura.carteira.modelo.Usuario;
 import br.com.alura.carteira.repository.TransacaoRepository;
+import br.com.alura.carteira.repository.UsuarioRepository;
 
 
 @Service
@@ -19,6 +20,10 @@ public class TransacaoService {
 
 	@Autowired
 	private TransacaoRepository transacaoRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
 	private ModelMapper modelMapper = new ModelMapper();	
 	
 	// trocar o list para Page
@@ -44,8 +49,8 @@ public class TransacaoService {
 	@Transactional
 	public TransacaoDto cadastrar(TransacaoFormDto dto ) {
 		
-	//*	Long idUsuario = dto.getUsuarioId();
-	//*	Usuario usuario = usuarioRepository.getById(idUsuario);
+		Long idUsuario = dto.getUsuarioId(); //*
+		Usuario usuario = usuarioRepository.getById(idUsuario); //*
 		
 		
 		Transacao transacao = modelMapper.map(dto, Transacao.class);
@@ -53,7 +58,7 @@ public class TransacaoService {
 		// para dizer que na tem id e o bco cria um novo id
 		
 		transacao.setId(null);
-//*		transacao.setUsuario(usuario);
+		transacao.setUsuario(usuario);  //*
         transacaoRepository.save(transacao);
         return modelMapper.map(transacao,TransacaoDto.class);
        

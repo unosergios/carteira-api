@@ -13,10 +13,14 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonAlias;
 
 import br.com.alura.carteira.modelo.TipoTransacao;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
+@AllArgsConstructor  // para o processo de teste
+@NoArgsConstructor   // para o processo de teste
 public class TransacaoFormDto {
 	
 // vamos colocar as validacoes aqui do bin valkidation - as regras

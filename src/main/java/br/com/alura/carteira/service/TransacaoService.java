@@ -1,5 +1,7 @@
 package br.com.alura.carteira.service;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,18 +52,36 @@ public class TransacaoService {
 	public TransacaoDto cadastrar(TransacaoFormDto dto ) {
 		
 		Long idUsuario = dto.getUsuarioId(); //*
+		
+		// vamos colocar o try catch para ver se existe o usuario
+		// na base de dados
+		try {
 		Usuario usuario = usuarioRepository.getById(idUsuario); //*
-		
-		
 		Transacao transacao = modelMapper.map(dto, Transacao.class);
-// pode fazer um ajuste no modelmapper
-		// para dizer que na tem id e o bco cria um novo id
+		// pode fazer um ajuste no modelmapper
+				// para dizer que na tem id e o bco cria um novo id
+				
+				transacao.setId(null);
+				transacao.setUsuario(usuario);  //*
+		        transacaoRepository.save(transacao);
+		        return modelMapper.map(transacao,TransacaoDto.class);
+		   //     return new TransacaoDto - para simular erro no ServiceTransacaoTest
 		
-		transacao.setId(null);
-		transacao.setUsuario(usuario);  //*
-        transacaoRepository.save(transacao);
-        return modelMapper.map(transacao,TransacaoDto.class);
-       
-	}		
-	
+		// precisa ver se o usuario foi carregado no bco de dados
+		} catch (EntityNotFoundException e) {
+			throw new IllegalArgumentException("Usuario inexistente");
+		}
+		
+	}	
+   //return new TransacaoDto - para simular erro no ServiceTransacaoTest
+//	}		
+//	Transacao transacao = modelMapper.map(dto, Transacao.class);
+//	// pode fazer um ajuste no modelmapper
+//			// para dizer que na tem id e o bco cria um novo id
+//			
+//			transacao.setId(null);
+//			transacao.setUsuario(usuario);  //*
+//	        transacaoRepository.save(transacao);
+//	        return modelMapper.map(transacao,TransacaoDto.class);
+//	   //  	
 }

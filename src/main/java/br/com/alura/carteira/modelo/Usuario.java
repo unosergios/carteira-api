@@ -27,5 +27,15 @@ public class Usuario {
 	private String nome;
 	private String login;
 	private String senha;
+	
+	
+	// construtor criado para carga de dados nos testes
+	public Usuario(String nome, String login, String senha) {
+		this.nome = nome;
+		this.login = login;
+		this.senha = senha;
+	}
 
+	
+	
 }

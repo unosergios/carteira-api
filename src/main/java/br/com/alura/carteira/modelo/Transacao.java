@@ -83,6 +83,8 @@ public class Transacao {
 	// no caso o relacionamento sera o proprio id
 	private Usuario usuario;
 
+
+
 	// toda codificacao abaixo pode ser "escondido" pelo Lombok
 	// o Lombok é um biblioteca que tira essa visibilidade no
 	// codigo fonte. 
@@ -154,5 +156,17 @@ public class Transacao {
 //	public void setTipo(TipoTransacao tipo) {
 //		this.tipo = tipo;
 //	}
-
+  
+	// para poder popular a tabela de testes foi construido o construtor abaixo
+	
+	public Transacao(String ticker, BigDecimal preco, Integer quantidade, LocalDate data, TipoTransacao tipo,
+			Usuario usuario) {
+		this.ticker = ticker;
+		this.preco = preco;
+		this.quantidade = quantidade;
+		this.data = data;
+		this.tipo = tipo;
+		this.usuario = usuario;
+	}	
+	
 }

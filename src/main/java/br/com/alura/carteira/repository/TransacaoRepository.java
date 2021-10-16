@@ -116,6 +116,8 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long>{
 ////
 //		}              
 	
+	// como testar uma interface
+	
 	@Query("select new br.com.alura.carteira.dto.ItemCarteiraDto( "
 			+ "t.ticker,"
 			+ "sum(t.quantidade),"

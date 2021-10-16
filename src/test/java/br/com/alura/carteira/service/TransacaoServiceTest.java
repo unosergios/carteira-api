@@ -41,21 +41,39 @@ class TransacaoServiceTest {
     
     @InjectMocks
 	private TransacaoService service;
-	
+
+// tirar a duplicacao do processo de cadastramento
+// melhorias no codigo
+    
+   private TransacaoFormDto criarTransacaoFormDto() {
+  		 
+	   TransacaoFormDto formDto = new TransacaoFormDto(
+	   "XPTO01",
+  		  new BigDecimal("23.67"),
+  		  100,
+  		  LocalDate.now(),
+  		  TipoTransacao.COMPRA,
+  		  1l);
+	   
+	   return formDto;
+    }    
+    
 	@Test
 	void deveriaCadastrarUmaTransacao() {
 
 
-	    TransacaoFormDto formDto = new TransacaoFormDto(
-	    		  "XPTO01",
-	    		  new BigDecimal("23.67"),
-	    		  100,
-	    		  LocalDate.now(),
-	    		  TipoTransacao.COMPRA,
-	    		  1l
-	    		  
-	     );
-	    
+//	    TransacaoFormDto formDto = new TransacaoFormDto(
+//	    		  "XPTO01",
+//	    		  new BigDecimal("23.67"),
+//	    		  100,
+//	    		  LocalDate.now(),
+//	    		  TipoTransacao.COMPRA,
+//	    		  1l
+//	    		  
+//	     );
+//	    
+		
+		TransacaoFormDto formDto = criarTransacaoFormDto();
 
 // foi utilizado o Mockito para as duas chamadas (repository)
 // só que as duas chamadas requerem os parametros declarados
@@ -75,7 +93,7 @@ class TransacaoServiceTest {
 	    
 // teste para er se passou no transacaoRepository.sava
 	    
-//	    Mockito.verify(transacaoRepository.save(Mockito.any()));
+	    Mockito.verify(transacaoRepository).save(Mockito.any());
 	    
 	    assertEquals(formDto.getTicker(), dto.getTicker());
 	    assertEquals(formDto.getPreco(), dto.getPreco());
@@ -89,16 +107,20 @@ class TransacaoServiceTest {
 
 // o mock não vai ao banco
 // para simular o id do usuario
-		
-	    TransacaoFormDto formDto = new TransacaoFormDto(
-	    		  "XPTO01",
-	    		  new BigDecimal("23.67"),
-	    		  100,
-	    		  LocalDate.now(),
-	    		  TipoTransacao.COMPRA,
-	    		  1000l
-	    		  
-	     );
+
+// como tinha repeticao de codigos
+	
+//	    TransacaoFormDto formDto = new TransacaoFormDto(
+//	    		  "XPTO01",
+//	    		  new BigDecimal("23.67"),
+//	    		  100,
+//	    		  LocalDate.now(),
+//	    		  TipoTransacao.COMPRA,
+//	    		  1000l
+//	    		  
+//	     );
+	    
+		TransacaoFormDto formDto = criarTransacaoFormDto();
 	    
 // aula testes utilizando Mocks 33:00
 	    

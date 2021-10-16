@@ -117,13 +117,24 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long>{
 //		}              
 	
 	// como testar uma interface
+	//
+	// query voltando todos os campos vai ser substituido por quer que volta 
+	// a somatoria de quantidades e o calculo do percentual fica dentro da DTO
+	// devido a questão das casas decimais
+	
+//	@Query("select new br.com.alura.carteira.dto.ItemCarteiraDto( "
+//			+ "t.ticker,"
+//			+ "sum(case when(t.tipo='COMPRA') then  t.quantidade else (t.quantidade *-1.0)end),"
+//			+ "sum(case when(t.tipo='COMPRA') then  t.quantidade *1.0 else (t.quantidade *-1.0)end) * 1.0 /(select sum(t2.quantidade) from Transacao t2)* 1.0 )"
+//			+ " from Transacao t"
+//			+ " group by t.ticker")
 	
 	@Query("select new br.com.alura.carteira.dto.ItemCarteiraDto( "
-			+ "t.ticker,"
-			+ "sum(t.quantidade),"
-			+ "sum(t.quantidade) * 1.0 /(select sum(t2.quantidade) from Transacao t2)* 1.0 )"
-			+ " from Transacao t"
-			+ " group by t.ticker")
+	+ "t.ticker,"
+	+ "sum(case when(t.tipo='COMPRA') then  t.quantidade else (t.quantidade *-1.0)end),"
+	+ "(select sum(case when(t2.tipo='COMPRA') then  t2.quantidade else (t2.quantidade *-1.0)end) from Transacao t2))"
+	+ " from Transacao t"
+	+ " group by t.ticker")	
 	List<ItemCarteiraDto> relatorioCarteiraDeInvestimentos();
 	
 	

@@ -19,9 +19,12 @@ import br.com.alura.carteira.dto.TransacaoDto;
 import br.com.alura.carteira.dto.UsuarioDto;
 import br.com.alura.carteira.dto.UsuarioFormDto;
 import br.com.alura.carteira.service.UsuarioService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/usuarios")
+@Api(tags = "usuario para aparecer na documentacao")
 public class UsuarioController {
 
 // tanto a lista que simula o bco como o processo
@@ -41,6 +44,7 @@ public class UsuarioController {
 	private UsuarioService service;
 	
 @GetMapping
+@ApiOperation("Listar para apareer no swagger")
 public Page<UsuarioDto> listar(Pageable paginacao) {
 	   return service.listar(paginacao);
 	   

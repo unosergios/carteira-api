@@ -45,11 +45,25 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+<!-- a dependencia do Junit está aqui no starter-test -->		
+<!-- modulo de teste do Spring Boot -->
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+<!-- ao colocar esta dependencia o spring secutiry -->
+<!-- já cria um usuario -> user e a senha criptografada que aparece -->
+<!-- na console ao rodar a aplicação -->
+<!-- a caixa do dialogo da atenticação já ira aparecer  -->
+<!-- ao chamar a aplicação -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+
 		</dependency>
 
         <dependency>

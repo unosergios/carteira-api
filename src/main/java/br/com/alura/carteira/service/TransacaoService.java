@@ -26,8 +26,10 @@ public class TransacaoService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	private ModelMapper modelMapper = new ModelMapper();	
+	//private ModelMapper modelMapper = new ModelMapper();	
 	
+	@Autowired
+	private ModelMapper modelMapper;
 	// trocar o list para Page
 //	public List<TransacaoDto> listar(Pageable paginacao) {
 		// para limitar a qtde utilizamos- por default é 20 registros

@@ -1,6 +1,7 @@
 package br.com.alura.carteira.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
@@ -177,6 +178,9 @@ class TransacaoRepositoryTest {
 	   
 //	   assertEquals(4, relatorio.size());
 
+	   
+//	    assertNotNull(relatorio);
+//	    assertFalse(relatorio.isEmpty());   	   
 // vamos utilizar uma biblioteca para facilitar os testes assertj e não o assert do Junit 
 // ja vem o modulo de teste do spring-test, então não precisa mexer no pom
 // 	   

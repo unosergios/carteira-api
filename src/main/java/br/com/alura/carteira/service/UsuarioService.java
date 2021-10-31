@@ -6,6 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,9 @@ public class UsuarioService {
 	private UsuarioRepository usuarioRepository;
 	private ModelMapper modelMapper = new ModelMapper();	
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	public Page<UsuarioDto> listar(Pageable paginacao) {
 		Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
 //		return usuarios.stream()
@@ -43,8 +48,12 @@ public class UsuarioService {
 	//  a senha poderia ser gerado aqui e não digitado
 		
 		String senha = new Random().nextInt(999999)+ " ";  // soma com um strin para transforma em string
-		usuario.setSenha(senha);     		               // coloca uma ramge 999999 para gerar uma
+	//	usuario.setSenha(senha);     		               // coloca uma ramge 999999 para gerar uma
 
+		
+		// vamos colocar a cryptografia
+		usuario.setSenha(bCryptPasswordEncoder.encode(senha));   
+		
         System.out.println(usuario.getSenha());
 //		usuarios.add(usuario); 
 		// senha com 6 numeros

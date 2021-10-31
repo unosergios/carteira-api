@@ -1,11 +1,13 @@
 package br.com.alura.carteira.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 
@@ -19,6 +21,8 @@ import br.com.alura.carteira.modelo.Usuario;
 
 // o long se refere ao tipo d chave primaria da tabela Usuarios
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+
+
 //	// processo do private é para receber o parametro de conesão na classe e para isso criamos o construtor desta classe para receber como parametro	
 //// na JPA vai ter o EntityManager no lugar da Connection
 //	
@@ -114,4 +118,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 ////			}
 ////
 //		}
+	
+	  // devolve ou não o objetos na consulta -- optional do java 8
+	 Optional <Usuario> findByLogin(String login);
 }

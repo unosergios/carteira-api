@@ -3,9 +3,13 @@ package br.com.alura.carteira.infra.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -31,6 +35,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	
+   @Override
+   @Bean
+     protected AuthenticationManager authenticationManager() throws Exception {
+	return super.authenticationManager();
+}
+
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
        auth.userDetailsService(autenticacaoService).passwordEncoder(bCryptPasswordEncoder);
@@ -42,12 +54,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	// o crossfile  -- crrf
 	// requisicoes do tipo post crrf - exige um cabecalho
 	// dai o erro 403 - forbiden
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().authenticated().and()
-		.formLogin().and().csrf().disable();
-	//	super.configure(http);
-	}
+
+// pelo formulatio	
+//	@Override
+//	protected void configure(HttpSecurity http) throws Exception {
+//		http.authorizeRequests().anyRequest().authenticated().and()
+//		.formLogin().and().csrf().disable();
+//	//	super.configure(http);
+//	}
+	
+	
 	// criado uma classe BeansConfigurations e movido
 	// para lah
 //	@Bean
@@ -59,4 +75,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //	public static void main(String [] args) {
 //		System.out.println(new BCryptPasswordEncoder().encode("123456"));
 	//}
+	
+//-----------autenticacao via Token
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+		.antMatchers(HttpMethod.POST,"/auth").permitAll()
+		.anyRequest().authenticated().and()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and().csrf().disable();
+	//	super.configure(http);
+	}
+	
+	
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+       web.ignoring().antMatchers("/v2/api-docs","/configuration/ui","/swagger-resources/**","/configuration/secutiry","/swagger-resources/**","/configuration/security","/swagger-ui.html","/webjars/**");
+    		   
+    		   
+	}
+	
+	
 }

@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.alura.carteira.repository.UsuarioRepository;
 
 // essa anotação serve para o spring carregar
 // ao subir a aplicação
@@ -35,6 +38,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private TokenService tokenService;	
+	
 	
    @Override
    @Bean
@@ -84,7 +94,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST,"/auth").permitAll()
 		.anyRequest().authenticated().and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().csrf().disable();
+		.and()
+		.csrf().disable()
+		.addFilterBefore(new VerificacaoTokenFilter(tokenService,usuarioRepository),
+				UsernamePasswordAuthenticationFilter.class);
+	
 	//	super.configure(http);
 	}
 	

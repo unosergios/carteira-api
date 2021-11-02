@@ -60,7 +60,7 @@ public class VerificacaoTokenFilter extends OncePerRequestFilter {
 		// o token veio carregado
 		// tirar o Bearer do token que vem no cabecalho Authorization
 		
-		token = token.replace("Bearer", "");
+		token = token.replace("Bearer ", "");
 		
 		// validar o token que chegou
 		
@@ -69,9 +69,9 @@ public class VerificacaoTokenFilter extends OncePerRequestFilter {
 		if (tokenValido) {
 			Long idUsuario = tokenService.extrairIdUsuario(token);
 			
-			Usuario logado = usuarioRepository.getById(idUsuario);
+			Usuario logado = usuarioRepository.carregarPorIdComPerfis(idUsuario).get();
 					
-			Authentication authentication = new UsernamePasswordAuthenticationToken(logado, null, null);
+			Authentication authentication = new UsernamePasswordAuthenticationToken(logado, null, logado.getAuthorities());
 			
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}

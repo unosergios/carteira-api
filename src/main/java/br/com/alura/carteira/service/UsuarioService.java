@@ -13,8 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.alura.carteira.dto.UsuarioDto;
 import br.com.alura.carteira.dto.UsuarioFormDto;
+import br.com.alura.carteira.modelo.Perfil;
 import br.com.alura.carteira.modelo.Usuario;
+import br.com.alura.carteira.repository.PerfilRepository;
 import br.com.alura.carteira.repository.UsuarioRepository;
+
 
 // Na classe service é para isolar as regras da aplicação por exemplo gerar
 // a senha
@@ -26,6 +29,9 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	private ModelMapper modelMapper = new ModelMapper();	
+	
+	@Autowired
+	private PerfilRepository perfilRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -46,6 +52,9 @@ public class UsuarioService {
 	public UsuarioDto cadastrar(UsuarioFormDto dto ) {
 		Usuario usuario = modelMapper.map(dto, Usuario.class);
 	//  a senha poderia ser gerado aqui e não digitado
+		
+		Perfil perfil = perfilRepository.getById(dto.getPerfilId());
+		usuario.adicionarPerfil(perfil);
 		
 		String senha = new Random().nextInt(999999)+ " ";  // soma com um strin para transforma em string
 	//	usuario.setSenha(senha);     		               // coloca uma ramge 999999 para gerar uma
